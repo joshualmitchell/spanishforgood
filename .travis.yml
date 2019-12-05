@@ -3,12 +3,14 @@ services:
     - docker
 
 before_install:
+    # build the test images
     - docker build -t joshualmitchell/sfg-client-test -f ./client/Dockerfile.dev ./client
 
 script:
     - docker run -e CI=true joshualmitchell/sfg-client-test npm test
 
 after_success:
+    # build the prod images
     - docker build -t joshualmitchell/sfg-client ./client
     - docker build -t joshualmitchell/sfg-nginx ./nginx
     - docker build -t joshualmitchell/sfg-server ./server
