@@ -1,0 +1,22 @@
+language: generic
+services:
+    - docker
+
+before_install:
+    - docker build -t joshualmitchell/sfg-client-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true joshualmitchell/sfg-client-test npm test
+
+after_success:
+    - docker build -t joshualmitchell/sfg-client ./client
+    - docker build -t joshualmitchell/sfg-nginx ./nginx
+    - docker build -t joshualmitchell/sfg-server ./server
+    - docker build -t joshualmitchell/sfg-worker ./worker
+    # Log into the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those build images and push them to docker hub
+    - docker push joshualmitchell/sfg-client
+    - docker push joshualmitchell/sfg-nginx
+    - docker push joshualmitchell/sfg-server
+    - docker push joshualmitchell/sfg-worker
