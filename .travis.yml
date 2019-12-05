@@ -22,3 +22,16 @@ after_success:
     - docker push joshualmitchell/sfg-nginx
     - docker push joshualmitchell/sfg-server
     - docker push joshualmitchell/sfg-worker
+
+deploy:
+    edge: true
+    provider: elasticbeanstalk
+    region: us-east-2
+    app: spanishforgood
+    env: Spanishforgood-env 
+    bucket_name: elasticbeanstalk-us-east-2-725604658204
+    bucket_path: spanishforgood
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
