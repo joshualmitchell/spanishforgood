@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import { setActivePage } from "../../actions";
 
-class Fib extends Component {
+import { HOME } from "../staticPages/staticPagesConstants";
+
+class Landing extends Component {
   state = {
     seenIndexes: [],
     values: {},
-    index: ''
+    index: ""
   };
 
   componentDidMount() {
@@ -14,12 +18,12 @@ class Fib extends Component {
   }
 
   async fetchValues() {
-    const values = await axios.get('/api/values/current');
+    const values = await axios.get("/api/values/current");
     this.setState({ values: values.data });
   }
 
   async fetchIndexes() {
-    const seenIndexes = await axios.get('/api/values/all');
+    const seenIndexes = await axios.get("/api/values/all");
     this.setState({
       seenIndexes: seenIndexes.data
     });
@@ -28,14 +32,14 @@ class Fib extends Component {
   handleSubmit = async event => {
     event.preventDefault();
 
-    await axios.post('/api/values', {
+    await axios.post("/api/values", {
       index: this.state.index
     });
-    this.setState({ index: '' });
+    this.setState({ index: "" });
   };
 
   renderSeenIndexes() {
-    return this.state.seenIndexes.map(({ number }) => number).join(', ');
+    return this.state.seenIndexes.map(({ number }) => number).join(", ");
   }
 
   renderValues() {
@@ -53,6 +57,7 @@ class Fib extends Component {
   }
 
   render() {
+    this.props.setActivePage(HOME);
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -74,4 +79,4 @@ class Fib extends Component {
   }
 }
 
-export default Fib;
+export default connect(null, { setActivePage })(Landing);
