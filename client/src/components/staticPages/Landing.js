@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { setActivePage } from "../../actions";
 
+import { setActivePage } from "../../actions";
 import { HOME } from "../staticPages/staticPagesConstants";
 
 class Landing extends Component {
@@ -13,8 +13,8 @@ class Landing extends Component {
   };
 
   componentDidMount() {
-    this.fetchValues();
-    this.fetchIndexes();
+    // this.fetchValues();
+    // this.fetchIndexes();
   }
 
   async fetchValues() {

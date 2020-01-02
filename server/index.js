@@ -1,14 +1,42 @@
-const keys = require("./keys");
+const keys = require("./config/keys");
 
 // Express App Setup
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
+      callbackURL: "http://localhost:4000/api/auth/google/callback"
+    },
+    accessToken => {
+      console.log(accessToken);
+    }
+  )
+);
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"]
+  })
+);
+
+app.get("/", function(req, res) {
+  res.send("hello world");
+});
+
+app.get("/auth/google/callback", passport.authenticate("google"));
 // Postgres Client Setup
 const { Pool } = require("pg");
 const pgClient = new Pool({
@@ -18,7 +46,7 @@ const pgClient = new Pool({
   password: keys.pgPassword,
   port: keys.pgPort
 });
-pgClient.on("error", () => console.log("Lost PG connection"));
+pgClient.on("error", () => console.log("Lost Postgres connection"));
 
 pgClient
   .query("CREATE TABLE IF NOT EXISTS values (number INT)")

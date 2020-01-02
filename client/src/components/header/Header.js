@@ -40,7 +40,7 @@ class Header extends Component {
       resourcesActive
     } = this.props.activePageObject;
     return (
-      <div class="ui pointing menu">
+      <div className="ui pointing menu">
         <Link className={homeActive} to="/">
           Home
         </Link>
