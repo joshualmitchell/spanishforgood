@@ -1,6 +1,15 @@
 module.exports = app => {
   // Express route handlers
-  const keys = require("./config/keys");
+  const keys = require("../config/keys");
+  // Postgres Client Setup
+  const { Pool } = require("pg");
+  const pgClient = new Pool({
+    user: keys.pgUser,
+    host: keys.pgHost,
+    database: keys.pgDatabase,
+    password: keys.pgPassword,
+    port: keys.pgPort
+  });
 
   pgClient.on("error", () => console.log("Lost Postgres connection"));
 
