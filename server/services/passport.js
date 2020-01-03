@@ -7,7 +7,7 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "http://localhost:4000/api/auth/google/callback",
       proxy: true // if our request runs through any proxy, it's fine, make it secure (https)
     },
     accessToken => {
