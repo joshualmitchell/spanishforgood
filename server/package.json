@@ -8,7 +8,7 @@
     "cors": "2.8.4",
     "nodemon": "1.18.3",
     "body-parser": "*",
-    "mongoose": "^4.11.1"
+    "mongoose": "^5.7.5"
   },
   "scripts": {
     "dev": "nodemon",
